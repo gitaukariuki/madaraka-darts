@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Madaraka Edition Darts Tournament</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -12,9 +12,9 @@
             --secondary-color: #6610f2;
             --accent-color: #ffd700; /* Gold */
             --success-color: #00c853; /* Green */
-            --dark-overlay: rgba(0, 0, 0, 0.4);
+            --dark-overlay: rgba(0, 0, 0, 0.5); /* Slightly darker for hero overlay */
             --light-overlay: rgba(255, 255, 255, 0.1);
-            --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Darker shadow for hero text */
         }
 
         body {
@@ -24,12 +24,13 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column; /* Changed to column to stack hero and content */
+            justify-content: flex-start; /* Start content from top */
             align-items: center;
             min-height: 100vh;
             animation: gradientBG 15s ease infinite;
             background-size: 200% 200%;
-            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+            overflow-x: hidden;
         }
 
         @keyframes gradientBG {
@@ -53,6 +54,55 @@
             to {opacity: 1; transform: translateX(0);}
         }
 
+        /* Hero Section Styling */
+        .hero-section {
+            width: 100%;
+            height: 450px; /* Adjust height as needed */
+            background-image: url('https://images.unsplash.com/photo-1578875301878-43f80c857703?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGRhcnRzJTIwdG91cm5hbWVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60'); /* Dartboard in action image from Unsplash */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1; /* Ensure it's above the gradient background */
+            overflow: hidden; /* For pseudo-element overlay */
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay for text readability */
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3; /* Ensure content is above overlay */
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5em; /* Larger hero title */
+            margin-bottom: 10px;
+            text-shadow: var(--text-shadow);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5em;
+            text-shadow: var(--text-shadow);
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+            opacity: 0; /* Start hidden for animation */
+        }
+
         .container {
             background: var(--light-overlay);
             padding: 40px;
@@ -62,14 +112,17 @@
             backdrop-filter: blur(10px);
             transition: transform 0.3s ease;
             max-width: 800px;
-            margin: 20px;
-            animation: fadeIn 1s ease-out;
+            margin: -80px 20px 20px 20px; /* Pull it up over the hero slightly */
+            position: relative; /* For z-index to work */
+            z-index: 10; /* Ensure content is above hero */
+            animation: fadeIn 1.5s ease-out 1s forwards; /* Delayed appearance */
+            opacity: 0; /* Start hidden for animation */
         }
         .container:hover {
             transform: translateY(-5px);
         }
 
-        h1 {
+        h1:not(.hero-content h1) { /* Exclude hero h1 from this rule */
             font-family: 'Montserrat', sans-serif;
             color: #fff;
             margin-bottom: 20px;
@@ -162,7 +215,7 @@
         .map-section iframe {
             width: 100%;
             border-radius: 8px;
-            height: 400px; /* Adjusted height for better view */
+            height: 400px;
             border: none;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
@@ -197,8 +250,14 @@
     </style>
 </head>
 <body>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Madaraka Edition Darts Tournament</h1>
+            <p>Join us for an electrifying day of darts action!</p>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Madaraka Edition Darts Tournament</h1>
         <p style="text-align: center; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);">Organized by the Kirinyaga Darts Branch</p>
 
         <div class="event-details">
@@ -230,14 +289,22 @@
 
         <div class="map-section">
             <h2>Location Map</h2>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.5352257791524!2d37.35521261071318!3d-0.6825420352617502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1826210d91bbb661%3A0x77e82399df648853!2s%2B254%20Club%20Sport%20Bar!5e0!3m2!1sen!2ske!4v1748415232715!5m2!1sen!2ske" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <p style="font-size: 0.9em; margin-top: 15px;"></p>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.2892978931165!2d37.33777557434571!3d-0.6695276993208764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182821b068c227e7%3A0xb36340f1a9b1c76a!2s+254+Club+Sports+Bar!5e0!3m2!1sen!2ske!4v1716886981452!5m2!1sen!2ske"
+                width="600"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+            </iframe>
+            <p style="font-size: 0.9em; margin-top: 15px;">(Map showing approximate location of +254 Club Sports Bar. Please verify.)</p>
         </div>
 
         <div class="entertainment">
             <h2>Don't Miss the Entertainment!</h2>
-            <p>Join us for <span class="highlight">Mugithi Nite</span> on Friday, Saturday, Sunday, and Monday!</p>
-            <p>Featuring <span class="highlight">One-man Guitar by <b>Wamucuthi Live Band</b></span></p>
+            <p>Join us for <span class="highlight">Migithi Nite</span> on Friday, Saturday, Sunday, and Monday!</p>
+            <p>Featuring <span class="highlight">One-man Guitar by Wamucuthi Live Band</span></p>
         </div>
 
         <div class="social-media">
